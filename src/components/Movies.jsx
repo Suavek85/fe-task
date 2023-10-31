@@ -1,22 +1,21 @@
-import Movie from './Movie'
-import '../styles/movies.scss'
+import Movie from "./Movie";
+import "../styles/movies.scss";
 
-const Movies = ({ movies, viewTrailer, closeCard }) => {
+const Movies = ({ movies, viewTrailer, lastMovieElementRef }) => {
+  return (
+    <div className="movies-wrapper" data-testid="movies">
+      {movies.movies.map((movie) => {
+        return (
+          <Movie
+            movie={movie}
+            key={movie.id}
+            viewTrailer={viewTrailer}
+          />
+        );
+      })}
+      <div ref={lastMovieElementRef}></div>
+    </div>
+  );
+};
 
-    return (
-        <div data-testid="movies">
-            {movies.movies.results?.map((movie) => {
-                return (
-                    <Movie 
-                        movie={movie} 
-                        key={movie.id}
-                        viewTrailer={viewTrailer}
-                        closeCard={closeCard}
-                    />
-                )
-            })}
-        </div>
-    )
-}
-
-export default Movies
+export default Movies;

@@ -1,6 +1,6 @@
 @import "./mixins";
 
-.starred-movies-wrapper {
+.watch-later-wrapper {
   @include movies-flex-container;
 
   button.close {
