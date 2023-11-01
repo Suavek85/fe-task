@@ -114,6 +114,14 @@
       font-size: 0.7rem;
       line-height: 105%;
 
+      scrollbar-color: #aaa #f0f0f0;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 0;
+      }
+
       @include respond-max-sm {
         padding: 3px;
         margin-bottom: 2px;
@@ -124,11 +132,6 @@
         font-size: 1rem;
         line-height: 115%;
       }
-    }
-
-    .overview::-webkit-scrollbar {
-      width: 8px;
-      height: 0;
     }
   }
 
@@ -144,9 +147,9 @@
       display: none;
 
       &.mobile-card {
-          display: block;
+        display: block;
       }
-  }
+    }
 
     @include respond-max-sm {
       font-size: 1.2rem;
@@ -167,8 +170,10 @@
   }
 
   img {
+    display: block;
     width: 100%;
     height: auto;
+    min-height: 200px;
   }
 
   .bottom-buttons-group {
@@ -242,7 +247,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 999;
+      z-index: $open-card-index;
       width: 100%;
       height: auto;
       border: 3px solid var(--bs-white);

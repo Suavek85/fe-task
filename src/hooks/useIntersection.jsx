@@ -2,7 +2,7 @@ import { useRef, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { FETCH_STATUS } from "../data/moviesSlice";
 
-const useIntersection = (setCurrentPage) => {
+const useIntersection = (setCurrentPage, currentPage) => {
   const { totalPages, fetchStatus } = useSelector((state) => state.movies);
   const observer = useRef();
 
@@ -13,14 +13,15 @@ const useIntersection = (setCurrentPage) => {
       observer.current = new IntersectionObserver((entries) => {
         if (
           entries[0].isIntersecting &&
-          totalPages !== 0
+          totalPages !== 0 &&
+          currentPage < totalPages
         ) {
           setCurrentPage((prevPage) => prevPage + 1);
         }
       });
       if (node) observer.current.observe(node);
-    },
-    [ setCurrentPage, totalPages, fetchStatus]
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    [setCurrentPage, totalPages, fetchStatus]
   );
 
   return { lastMovieElementRef };

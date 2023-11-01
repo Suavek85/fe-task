@@ -1,18 +1,13 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import debounce from "../utils/debounce";
 import "../styles/header.scss";
 
-const WATCH_LATER = 'WATCH LATER';
+const WATCH_LATER = "WATCH LATER";
 
 const Header = ({ searchMovies }) => {
   const { starredMovies } = useSelector((state) => state.starred);
   const location = useLocation();
   const navigate = useNavigate();
-
-  const debouncedSearchMovies = debounce((query) => {
-    searchMovies(query);
-  }, 300);
 
   const handleNavigationToHome = () => {
     if (location.pathname !== "/") {
@@ -21,7 +16,7 @@ const Header = ({ searchMovies }) => {
   };
 
   const handleInputChange = (e) => {
-    debouncedSearchMovies(e.target.value);
+    searchMovies(e.target.value);
   };
 
   return (

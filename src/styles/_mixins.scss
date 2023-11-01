@@ -5,8 +5,14 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+  height: auto;
 }
+
+// Z-indexes
+
+$open-card-index: 999;
+$modal-index: 1000; // needs to be higher than open-card-index
 
 // Breakpoint variables
 

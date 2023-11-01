@@ -25,7 +25,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const { lastMovieElementRef } = useIntersection(setCurrentPage);
+  const { lastMovieElementRef } = useIntersection(setCurrentPage, currentPage);
   const [videoKey, getMovieKey] = useMovieKey();
   const { moviesList, fetchStatus } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
@@ -60,12 +60,12 @@ const App = () => {
     dispatch(fetchMovies(URL));
   };
 
-  const debouncedGetMovies = debounce(getMovies, 300);
-
   const viewTrailer = (movie) => {
     getMovieKey(movie.id);
     setModalOpen(true);
   };
+
+  const debouncedGetMovies = debounce(getMovies, 300);
 
   useEffect(() => {
     debouncedGetMovies();
