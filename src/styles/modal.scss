@@ -1,42 +1,52 @@
-.modal-background {
+@import "./mixins";
+
+$closeElemSize: 30px;
+$closeElemOffset: 10px;
+$closeElemFontSize: 18px;
+
+.modal {
+  &__background {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 1000;
     background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  
-  .modal-wrapper {
+
+  &__wrapper {
     position: relative;
-    max-width: 90%;
-    background-color: white;
+    width: 50%;
+    background-color: var(--bs-white);
+    @include respond-max-xs {
+      width: 90%; 
+    }
   }
-  
-  .modal-close {
+
+  &__close {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: grey;
-    color: white;
+    top: $closeElemOffset;
+    right: $closeElemOffset;
+    background-color: var(--bs-gray-500);
+    color: var(--bs-white);
     border: none;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    cursor: pointer;
-    font-size: 18px;
     outline: none;
+    width: $closeElemSize;
+    height: $closeElemSize;
+    text-align: center;
+    line-height: $closeElemFontSize;
+    font-size: $closeElemFontSize;
     font-weight: bold;
     transition: background-color 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bs-gray-600);
+    }
   }
-  
-  .modal-close:hover {
-    background-color: darkgray;
-  }
-  
+}

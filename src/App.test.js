@@ -13,7 +13,8 @@ it('search for movies', async () => {
   renderWithProviders(<App />)
   await userEvent.type(screen.getByTestId('search-movies'), 'forrest gump')
   await waitFor(() => {
-    expect(screen.getAllByText('Through the Eyes of Forrest Gump')[0]).toBeInTheDocument()
+    const matchingElements = screen.getAllByText('Through the Eyes of Forrest Gump')
+    expect(matchingElements.length).toBeGreaterThanOrEqual(1)
   })
   const viewTrailerBtn = screen.getAllByText('View Trailer')[0]
   await userEvent.click(viewTrailerBtn)

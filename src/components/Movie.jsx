@@ -1,49 +1,57 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import starredSlice from "../data/starredSlice";
 import watchLaterSlice from "../data/watchLaterSlice";
-import placeholder from "../assets/not-found-500X750.jpeg";
+import getMoviePosterURL from "../utils/get-tmdb-poster-url";
 import "../styles/movie.scss";
 
+const WATCH_LATER = 'Watch Later';
+const VIEW_TRAILER = 'View Trailer';
+
 const Movie = ({ movie, viewTrailer }) => {
-  const state = useSelector((state) => state);
-  const { starred, watchLater } = state;
-  const { starMovie, unstarMovie } = starredSlice.actions;
-  const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions;
+  const [isOpened, setIsOpened] = useState(false);
+  const { starredMovies } = useSelector((state) => state.starred);
+  const { watchLaterMovies } = useSelector((state) => state.watchLater);
   const dispatch = useDispatch();
 
-  //Fix this and include closeCard? what for is opened
-  const clearCardAndSelectionHandler = (e) => {
-    if (!e) var e = window.event;
+  const { starMovie, unstarMovie } = starredSlice.actions;
+  const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions;
+
+  const { id, overview, release_date, poster_path, title } = movie;
+
+  const isStarred = starredMovies.some(m => m.id === id);
+  const isWatchLater = watchLaterMovies.some(m => m.id === id);
+  
+  const handleClosingCard = (e) => {
+    if (!e) e = window.event;
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
-    e.target.parentElement.parentElement.classList.remove("opened");
+    setIsOpened(false);
   };
 
   return (
     <div className="movie-card-wrapper">
       <div
-        className="movie-card"
-        onClick={(e) => e.currentTarget.classList.add("opened")}
+        className={`movie-card ${isOpened ? "opened" : ""}`}
+        onClick={() => setIsOpened(true)}
       >
-        <div className="movie-card-body">
-          <div className="overlay" />
-          <div className="info_panel">
-            <div className="overview">{movie.overview}</div>
-            <div>{movie.release_date?.substring(0, 4)}</div>
-            {!starred.starredMovies
-              .map((movie) => movie.id)
-              .includes(movie.id) ? (
+        <div className="movie-card__body">
+          <div className="movie-card__overlay" />
+          <div className="movie-card__info_panel">
+            <div className="overview">{overview}</div>
+            <div className="year">{release_date?.substring(0, 4)}</div>
+            {!isStarred ? (
               <span
                 className="btn-star"
                 data-testid="starred-link"
                 onClick={() =>
                   dispatch(
                     starMovie({
-                      id: movie.id,
-                      overview: movie.overview,
-                      release_date: movie.release_date?.substring(0, 4),
-                      poster_path: movie.poster_path,
-                      title: movie.title,
+                      id,
+                      overview,
+                      release_date: release_date?.substring(0, 4),
+                      poster_path,
+                      title,
                     })
                   )
                 }
@@ -60,9 +68,7 @@ const Movie = ({ movie, viewTrailer }) => {
               </span>
             )}
             <div className="bottom-buttons-group">
-              {!watchLater.watchLaterMovies
-                .map((movie) => movie.id)
-                .includes(movie.id) ? (
+              {!isWatchLater ? (
                 <button
                   type="button"
                   data-testid="watch-later"
@@ -70,16 +76,16 @@ const Movie = ({ movie, viewTrailer }) => {
                   onClick={() =>
                     dispatch(
                       addToWatchLater({
-                        id: movie.id,
-                        overview: movie.overview,
-                        release_date: movie.release_date?.substring(0, 4),
-                        poster_path: movie.poster_path,
-                        title: movie.title,
+                        id,
+                        overview,
+                        release_date: release_date?.substring(0, 4),
+                        poster_path,
+                        title,
                       })
                     )
                   }
                 >
-                  Watch Later
+                  {WATCH_LATER}
                 </button>
               ) : (
                 <button
@@ -96,32 +102,26 @@ const Movie = ({ movie, viewTrailer }) => {
                 className="btn btn-dark"
                 onClick={() => viewTrailer(movie)}
               >
-                View Trailer
+                {VIEW_TRAILER}
               </button>
             </div>
           </div>
           <img
             className="center-block"
-            src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                : placeholder
-            }
+            src={getMoviePosterURL(poster_path)}
             alt="Movie poster"
           />
         </div>
-        <div className="title-wrapper">
-          <h6 className="title mobile-card">{movie.title}</h6>
-          <h6 className="title">{movie.title}</h6>
-          <button
-            type="button"
-            className="close"
-            onClick={(e) => clearCardAndSelectionHandler(e)}
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <h6 className="title">{title}</h6>
+        <h6 className="title mobile-card">{title}</h6>
+        <button
+          type="button"
+          className="close"
+          onClick={handleClosingCard}
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
     </div>
   );

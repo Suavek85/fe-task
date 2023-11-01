@@ -2,8 +2,4 @@
 
 .starred-movies-wrapper {
   @include movies-flex-container;
-
-  button.close {
-    display: flex;
-  }
 }

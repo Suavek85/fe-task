@@ -12,14 +12,14 @@ describe('MovieSlice test', () => {
         expect(action).toEqual({type: fetchMovies.pending})
      })
 
-    it('should return payload when action is fulfilled', () => {
+     it('should return payload when action is fulfilled', () => {
         const action = {
             type: fetchMovies.fulfilled, 
             payload: moviesMock
         };
         const initialState = moviesSlice.reducer(
         { 
-            movies: [], fetchStatus: '',
+            moviesList: [], fetchStatus: '', totalPages: 0
         }, action);
         expect(action.payload).toBeTruthy()
     })

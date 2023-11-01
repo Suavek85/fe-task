@@ -1,23 +1,29 @@
-
+@import "./mixins";
 
 .movie-card-wrapper {
-  flex: 0 0 calc(100% / 2);
-  padding: 0 15px;
+  flex: 0 0 calc(100% / 1);
+  padding: 20px 40px;
 
-  @media (min-width: 576px) {
+  @include respond-to-xs {
+    flex: 0 0 calc(100% / 2);
+    padding: 0 20px;
+  }
+
+  @include respond-to-sm {
     flex: 0 0 calc(100% / 3);
+    padding: 0 10px;
   }
 
-  @media (min-width: 768px) {
-      flex: 0 0 calc(100% / 5);
+  @include respond-to-md {
+    flex: 0 0 calc(100% / 4);
   }
 
-  @media (min-width: 992px) {
+  @include respond-to-lg {
+    flex: 0 0 calc(100% / 5);
+  }
+
+  @include respond-to-xl {
     flex: 0 0 calc(100% / 6);
-  }
-
-  @media (min-width: 1200px) {
-    flex: 0 0 calc(100% / 7);
   }
 }
 
@@ -30,31 +36,40 @@
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 
-  @media (max-width: 480px) {
+  @include respond-max-xs {
     transition: none;
   }
 }
 
 .movie-card {
   position: relative;
-  color: #fff;
+  color: var(--bs-white);
   text-align: center;
   background: transparent;
   border: none;
 
   &:hover {
     transform: scale(1.1);
+  }
 
-    .overlay {
-      opacity: 0.8;
-    }
+  &:hover &__overlay {
+    opacity: 0.8;
+  }
 
-    .info_panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-      opacity: 1;
+  &:hover &__info_panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    opacity: 1;
+  }
+
+  &__body {
+    position: relative;
+    padding: 0;
+
+    &:hover {
+      border: 2px solid var(--bs-white);
     }
   }
 
@@ -64,21 +79,12 @@
     }
   }
 
-  .movie-card-body {
-    position: relative;
-    padding: 0;
-
-    &:hover {
-      border: 2px solid #fff;
-    }
-  }
-
-  .overlay {
+  &__overlay {
     background-color: #111;
   }
 
-  .overlay,
-  .info_panel {
+  &__overlay,
+  &__info_panel {
     position: absolute;
     top: 0;
     left: 0;
@@ -88,7 +94,7 @@
     transition: opacity 0.4s ease-in-out;
   }
 
-  .info_panel {
+  &__info_panel {
     padding: 5% 0;
 
     .bi-star:hover {
@@ -104,17 +110,25 @@
       height: 30%;
       padding: 5px;
       margin-bottom: 5px;
-      overflow-x: scroll;
+      overflow: scroll;
       font-size: 0.7rem;
       line-height: 105%;
+
+      @include respond-max-sm {
+        padding: 3px;
+        margin-bottom: 2px;
+      }
+
+      @include respond-max-xs {
+        margin-bottom: 40px;
+        font-size: 1rem;
+        line-height: 115%;
+      }
     }
 
     .overview::-webkit-scrollbar {
       width: 8px;
-    }
-
-    .overview::-webkit-scrollbar-thumb {
-      background-color: transparent;
+      height: 0;
     }
   }
 
@@ -125,40 +139,37 @@
     &.mobile-card {
       display: none;
     }
+
+    @media (max-width: 480px), (hover: none) {
+      display: none;
+
+      &.mobile-card {
+          display: block;
+      }
   }
 
-  .title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    @include respond-max-sm {
+      font-size: 1.2rem;
+    }
   }
 
   button.close {
     display: none;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    outline: none;
   }
-  
-  button.close:hover {
-    background-color: darkred;
+
+  .year {
+    padding: 0.2rem 0 0.4rem;
+    font-size: 0.7rem;
+
+    @include respond-max-xs {
+      font-size: 1.2rem;
+    }
   }
 
   img {
     width: 100%;
     height: auto;
   }
-
-  //BUTTON STYLES
 
   .bottom-buttons-group {
     width: 100%;
@@ -170,43 +181,51 @@
       margin: 8px auto;
       font-size: 0.6rem;
       text-align: center;
-  
+
+      @include respond-max-sm {
+        height: 20px;
+        padding: 2px 2px;
+        font-size: 0.6rem;
+      }
+
+      @include respond-max-xs {
+        margin: 15px auto;
+        height: 35px;
+        font-size: 1rem;
+      }
+
       &.btn-watch-later {
-        &.blue {
-          color: #fff;
+        &.blue,
+        &:hover {
+          color: var(--bs-white);
           background-color: #1cb5e0;
           border-color: #1cb5e0;
         }
-  
-        &:hover {
-          color: #fff;
-          background: #1cb5e0;
-          border-color: #1cb5e0;
-        }
       }
-  
+
       &.btn-dark:hover {
-        color: #fff;
+        color: var(--bs-white);
         background: #1cb5e0;
         border-color: #1cb5e0;
       }
+
+      .close {
+        display: none;
+      }
     }
-
   }
-
-  button.close {
-    display: none;
-  }
-
 
   .btn-star {
     width: 50px;
     margin: 0 5px;
     color: #e50914;
     cursor: pointer;
+    @include respond-max-xs {
+      font-size: 25px;
+    }
   }
 
-  @media (max-width: 480px) {
+  @include respond-max-xs {
     &:hover {
       transform: none;
 
@@ -219,47 +238,62 @@
       }
     }
 
-    h6.title {
-      &.mobile-card {
+    &.opened {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      width: 100%;
+      height: auto;
+      border: 3px solid var(--bs-white);
+      border-radius: 5px;
+      transform: none;
+
+      .overlay {
+        opacity: 0.7;
+      }
+
+      .info_panel {
         display: block;
+        opacity: 1;
+      }
+
+      h6.title {
+        display: none;
+
+        &.mobile-card {
+          position: absolute;
+          right: 0;
+          bottom: 50%;
+          left: 0;
+          display: block;
+          padding: 19px;
+          font-size: 1.5rem;
+        }
+      }
+
+      button.close {
         position: absolute;
-        right: 0;
-        bottom: 70%;
-        left: 0;
-        padding: 19px;
-        font-size: 1.5rem;
+        top: 0;
+        right: 0px;
+        z-index: 999;
+        display: block;
+        width: 75px;
+        height: 60px;
+        font-size: 50px;
+        line-height: 20px;
+        color: var(--bs-white);
+        background: transparent;
+        border: none;
+
+        span {
+          vertical-align: text-top;
+        }
       }
     }
-
-    .info_panel {
-      padding-top: 50%;
-    }
-
-    .overview {
-      height: 185px;
-      margin-bottom: 40px;
-      font-size: 1rem;
-      line-height: 115%;
-    }
-
-    .btn-star {
-      font-size: 25px;
-    }
   }
 
- /*
-  @media (max-width: 720px) {
+  @include respond-max-sm {
     background-color: transparent;
-
-    h6.title {
-      font-size: 0.7rem;
-    }
-
-    .overview {
-      height: 60px;
-      padding: 3px;
-      margin-bottom: 2px;
-    }
   }
-  */
 }

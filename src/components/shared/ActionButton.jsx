@@ -1,11 +1,9 @@
-import '../../styles/actionbutton.scss';
+import '../../styles/actionbutton.scss'
 
 const ActionButton = ({ text, onClickHandler }) => (
-  <div className="empty-list-btn-wrapper">
-    <button className="btn btn-primary" onClick={onClickHandler}>
-      {text}
-    </button>
-  </div>
+  <button className="btn btn-primary action-button" onClick={onClickHandler}>
+    {text}
+  </button>
 );
 
 export default ActionButton;

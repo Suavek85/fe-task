@@ -5,18 +5,20 @@ import EmptyCartBlock from "./shared/EmptyCart";
 import ActionButton from "./shared/ActionButton";
 import "../styles/watchlater.scss";
 
+const WATCH_LATER_LIST_HEADER = 'Watch Later List';
+
 const WatchLater = ({ viewTrailer }) => {
-  const { watchLater } = useSelector((state) => state);
+  const { watchLaterMovies } = useSelector((state) => state.watchLater);
   const { remveAllWatchLater } = watchLaterSlice.actions;
   const dispatch = useDispatch();
 
   return (
     <div data-testid="watch-later">
-      {watchLater.watchLaterMovies.length > 0 && (
+      {watchLaterMovies.length > 0 ? (
         <div data-testid="watch-later-movies">
-          <h6 className="header">Watch Later List</h6>
+          <h6 className="header">{WATCH_LATER_LIST_HEADER}</h6>
           <div className="watch-later-wrapper">
-            {watchLater.watchLaterMovies.map((movie) => (
+            {watchLaterMovies.map((movie) => (
               <Movie movie={movie} key={movie.id} viewTrailer={viewTrailer} />
             ))}
           </div>
@@ -25,8 +27,7 @@ const WatchLater = ({ viewTrailer }) => {
             onClickHandler={() => dispatch(remveAllWatchLater())}
           />
         </div>
-      )}
-      {watchLater.watchLaterMovies.length === 0 && (
+      ) : (
         <EmptyCartBlock
           icon="heart"
           message="You have no movies saved to watch later."
