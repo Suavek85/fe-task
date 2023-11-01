@@ -31,7 +31,7 @@ const Movie = ({ movie, viewTrailer }) => {
 
   return (
     <div className="movie-card-wrapper">
-      <div
+      <article
         className={`movie-card ${isOpened ? "opened" : ""}`}
         onClick={() => setIsOpened(true)}
       >
@@ -122,7 +122,7 @@ const Movie = ({ movie, viewTrailer }) => {
         >
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
+      </article>
     </div>
   );
 };

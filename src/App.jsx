@@ -18,23 +18,23 @@ import MovieTrailerMessage from "./components/MovieTrailerMessage";
 import debounce from "./utils/debounce";
 import scrollRestore from "./utils/scroll-restore";
 import useMovieKey from "./hooks/useMovieKey";
+import useYoutubeModal from "./hooks/useYoutubeModal";
 import useIntersection from "./hooks/useIntersection";
 import "./app.scss";
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setModalOpen] = useState(false);
 
   const { lastMovieElementRef } = useIntersection(setCurrentPage, currentPage);
   const [videoKey, getMovieKey] = useMovieKey();
+
+  const { isModalOpen, openModal, closeModal } = useYoutubeModal();
   const { moviesList, fetchStatus } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const searchQuery = searchParams.get("search");
   const { clearMovies } = moviesSlice.actions;
-
-  const closeModal = () => setModalOpen(false);
 
   const setParams = (query) => {
     if (query !== "") {
@@ -62,7 +62,7 @@ const App = () => {
 
   const viewTrailer = (movie) => {
     getMovieKey(movie.id);
-    setModalOpen(true);
+    openModal();
   };
 
   const debouncedGetMovies = debounce(getMovies, 300);
@@ -79,7 +79,6 @@ const App = () => {
         searchParams={searchParams}
         setSearchParams={setSearchParams}
       />
-
       <main>
         {isModalOpen && (
           <YouTubeModal closeModal={closeModal}>
