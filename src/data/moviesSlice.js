@@ -18,12 +18,16 @@ const moviesSlice = createSlice({
         moviesList: [],
         fetchStatus: FETCH_STATUS.IDLE,
         totalPages: 0,
+        currentPage: 1,
     },
     reducers: {
         clearMovies: (state) => {
             state.moviesList = [];
             state.fetchStatus = FETCH_STATUS.IDLE;
             state.totalPages = 0;
+        },
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload;
         },
     },
     extraReducers: (builder) => {

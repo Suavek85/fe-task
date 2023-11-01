@@ -1,10 +1,18 @@
 import { useRef, useCallback } from "react";
-import { useSelector } from "react-redux";
-import { FETCH_STATUS } from "../data/moviesSlice";
+import { useSelector, useDispatch } from "react-redux";
+import moviesSlice, { FETCH_STATUS } from "../data/moviesSlice";
 
-const useIntersection = (setCurrentPage, currentPage) => {
-  const { totalPages, fetchStatus } = useSelector((state) => state.movies);
+const useIntersection = () => {
+  const { totalPages, fetchStatus, currentPage } = useSelector((state) => state.movies);
+  const dispatch = useDispatch();
+
   const observer = useRef();
+
+  const { setCurrentPage } = moviesSlice.actions;
+
+  const updateCurrentPage = () => {
+    dispatch(setCurrentPage(currentPage + 1));
+  };
 
   const lastMovieElementRef = useCallback(
     (node) => {
@@ -16,12 +24,12 @@ const useIntersection = (setCurrentPage, currentPage) => {
           totalPages !== 0 &&
           currentPage < totalPages
         ) {
-          setCurrentPage((prevPage) => prevPage + 1);
+          updateCurrentPage();
         }
       });
       if (node) observer.current.observe(node);
     }, // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setCurrentPage, totalPages, fetchStatus]
+    [totalPages, fetchStatus]
   );
 
   return { lastMovieElementRef };

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Routes,
   Route,
@@ -17,9 +16,7 @@ import useMovieSearch from "./hooks/useMovieSearch";
 import "./app.scss";
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const { lastMovieElementRef } = useIntersection(setCurrentPage, currentPage);
+  const { lastMovieElementRef } = useIntersection();
   const [videoKey, getMovieKey] = useMovieKey();
   const { isModalOpen, openModal, closeModal } = useYoutubeModal();
   const {
@@ -28,7 +25,7 @@ const App = () => {
     searchMovies,
     searchParams,
     setSearchParams
-  } = useMovieSearch(currentPage);
+  } = useMovieSearch();
 
   const viewTrailer = (movie) => {
     getMovieKey(movie.id);

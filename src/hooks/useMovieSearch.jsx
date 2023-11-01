@@ -6,12 +6,18 @@ import { ENDPOINT_SEARCH, ENDPOINT_DISCOVER } from "../constants";
 import debounce from "../utils/debounce";
 import scrollRestore from "../utils/scroll-restore";
 
-const useMovieSearch = (currentPage) => {
+const useMovieSearch = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search");
   const { clearMovies } = moviesSlice.actions;
-  const { moviesList, fetchStatus } = useSelector((state) => state.movies);
+  const { moviesList, fetchStatus, currentPage } = useSelector((state) => state.movies);
+
+  const { setCurrentPage } = moviesSlice.actions;
+
+  const resetCurrentPage = () => {
+    dispatch(setCurrentPage(1));
+  };
 
   const setParams = (query) => {
     if (query !== "") {
@@ -24,6 +30,7 @@ const useMovieSearch = (currentPage) => {
   const searchMovies = (query) => {
     scrollRestore();
     dispatch(clearMovies());
+    resetCurrentPage(1);
     setParams(query);
   };
 
