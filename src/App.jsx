@@ -1,7 +1,4 @@
-import {
-  Routes,
-  Route,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
 import Starred from "./components/Starred";
@@ -17,15 +14,9 @@ import "./app.scss";
 
 const App = () => {
   const { lastMovieElementRef } = useIntersection();
-  const [videoKey, getMovieKey] = useMovieKey();
+  const { videoKey, getMovieKey } = useMovieKey();
   const { isModalOpen, openModal, closeModal } = useYoutubeModal();
-  const {
-    moviesList,
-    fetchStatus,
-    searchMovies,
-    searchParams,
-    setSearchParams
-  } = useMovieSearch();
+  const { moviesList, searchMovies } = useMovieSearch();
 
   const viewTrailer = (movie) => {
     getMovieKey(movie.id);
@@ -34,11 +25,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header
-        searchMovies={searchMovies}
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
-      />
+      <Header searchMovies={searchMovies} />
       <main>
         {isModalOpen && (
           <YouTubeModal closeModal={closeModal}>
@@ -57,7 +44,6 @@ const App = () => {
                 movies={moviesList}
                 viewTrailer={viewTrailer}
                 lastMovieElementRef={lastMovieElementRef}
-                fetchStatus={fetchStatus}
               />
             }
           />

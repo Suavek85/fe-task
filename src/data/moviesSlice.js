@@ -25,6 +25,7 @@ const moviesSlice = createSlice({
             state.moviesList = [];
             state.fetchStatus = FETCH_STATUS.IDLE;
             state.totalPages = 0;
+            state.currentPage = 1;
         },
         setCurrentPage: (state, action) => {
             state.currentPage = action.payload;

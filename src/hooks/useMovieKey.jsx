@@ -18,7 +18,7 @@ const useMovieKey = () => {
     }
   };
 
-  return [videoKey, getMovieKey];
+  return { videoKey, getMovieKey };
 };
 
 export default useMovieKey;

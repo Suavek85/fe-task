@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Movie from "./Movie";
 import { FETCH_STATUS } from "../data/moviesSlice";
 import "../styles/movies.scss";
@@ -6,7 +7,10 @@ const ERROR_MESSAGE = 'There has been an error.';
 const LOADING_MESSAGE = 'Loading...';
 const NO_MOVIES_MESSAGE = 'No movies found.'
 
-const Movies = ({ movies, viewTrailer, lastMovieElementRef, fetchStatus }) => {
+const Movies = ({ movies, viewTrailer, lastMovieElementRef }) => {
+
+  const { fetchStatus } = useSelector((state) => state.movies);
+  
   const renderMovies = () => 
     movies.map((movie, index) => (
       <Movie 

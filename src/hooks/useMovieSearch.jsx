@@ -9,35 +9,29 @@ import scrollRestore from "../utils/scroll-restore";
 const useMovieSearch = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { moviesList, currentPage } = useSelector((state) => state.movies);
   const searchQuery = searchParams.get("search");
   const { clearMovies } = moviesSlice.actions;
-  const { moviesList, fetchStatus, currentPage } = useSelector((state) => state.movies);
-
-  const { setCurrentPage } = moviesSlice.actions;
-
-  const resetCurrentPage = () => {
-    dispatch(setCurrentPage(1));
-  };
 
   const setParams = (query) => {
-    if (query !== "") {
-      setSearchParams(new URLSearchParams({ search: query }));
-    } else {
+    if (query === "") {
       setSearchParams(new URLSearchParams());
+    } else {
+      setSearchParams(new URLSearchParams({ search: query }));
     }
   };
 
   const searchMovies = (query) => {
     scrollRestore();
     dispatch(clearMovies());
-    resetCurrentPage(1);
     setParams(query);
   };
 
   const getMovies = () => {
-    const URL = searchQuery && searchQuery.length > 0
-      ? `${ENDPOINT_SEARCH}&query=${searchQuery}&page=${currentPage}`
-      : `${ENDPOINT_DISCOVER}&page=${currentPage}`;
+    const URL =
+      searchQuery && searchQuery.length > 0
+        ? `${ENDPOINT_SEARCH}&query=${searchQuery}&page=${currentPage}`
+        : `${ENDPOINT_DISCOVER}&page=${currentPage}`;
 
     dispatch(fetchMovies(URL));
   };
@@ -51,10 +45,7 @@ const useMovieSearch = () => {
 
   return {
     moviesList,
-    fetchStatus,
     searchMovies,
-    searchParams,
-    setSearchParams
   };
 };
 
