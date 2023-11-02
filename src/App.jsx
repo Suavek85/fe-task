@@ -8,15 +8,11 @@ import YouTubeModal from "./components/YoutubeModal";
 import MovieTrailerMessage from "./components/MovieTrailerMessage";
 import useMovieKey from "./hooks/useMovieKey";
 import useYoutubeModal from "./hooks/useYoutubeModal";
-import useIntersection from "./hooks/useIntersection";
-import useMovieSearch from "./hooks/useMovieSearch";
 import "./app.scss";
 
 const App = () => {
-  const { lastMovieElementRef } = useIntersection();
   const { videoKey, getMovieKey } = useMovieKey();
   const { isModalOpen, openModal, closeModal } = useYoutubeModal();
-  const { searchMovies } = useMovieSearch();
 
   const viewTrailer = (movie) => {
     getMovieKey(movie.id);
@@ -25,7 +21,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header searchMovies={searchMovies} />
+      <Header />
       <main>
         {isModalOpen && (
           <YouTubeModal closeModal={closeModal}>
@@ -42,7 +38,6 @@ const App = () => {
             element={
               <Movies
                 viewTrailer={viewTrailer}
-                lastMovieElementRef={lastMovieElementRef}
               />
             }
           />

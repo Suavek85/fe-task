@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import useMovieSearch from '../hooks/useMovieSearch';
 import "../styles/header.scss";
 
 const WATCH_LATER = "WATCH LATER";
 
-const Header = ({ searchMovies, isPlainHomeLink }) => {
+const Header = () => {
   const [ inputValue, setInputValue ] = useState('');
   const { starredMovies } = useSelector((state) => state.starred);
+  const { searchMovies } = useMovieSearch();
   const location = useLocation();
   const navigate = useNavigate();
 

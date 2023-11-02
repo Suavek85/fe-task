@@ -2,15 +2,16 @@ import { useSelector } from "react-redux";
 import Movie from "./Movie";
 import { FETCH_STATUS } from "../data/moviesSlice";
 import "../styles/movies.scss";
+import useIntersection from "../hooks/useIntersection";
 
 const ERROR_MESSAGE = 'There has been an error.';
 const LOADING_MESSAGE = 'Loading...';
 const NO_MOVIES_MESSAGE = 'No movies found.'
 
-const Movies = ({  viewTrailer, lastMovieElementRef }) => {
+const Movies = ({  viewTrailer }) => {
 
   const { fetchStatus, moviesList } = useSelector((state) => state.movies);
-
+  const { lastMovieElementRef } = useIntersection();
   
   const renderMovies = () => 
   moviesList.map((movie, index) => (
