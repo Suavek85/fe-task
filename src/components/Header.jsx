@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../styles/header.scss";
 
 const WATCH_LATER = "WATCH LATER";
 
-const Header = ({ searchMovies }) => {
+const Header = ({ searchMovies, isPlainHomeLink }) => {
+  const [ inputValue, setInputValue ] = useState('');
   const { starredMovies } = useSelector((state) => state.starred);
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,11 +19,17 @@ const Header = ({ searchMovies }) => {
 
   const handleInputChange = (e) => {
     searchMovies(e.target.value);
+    setInputValue(e.target.value)
+  };
+
+  const handleSearchReset = () => {
+    setInputValue('');
+    searchMovies('');
   };
 
   return (
     <header>
-      <Link to="/" data-testid="home">
+      <Link to="/" data-testid="home" onClick={handleSearchReset} >
         <i className="bi bi-film" />
       </Link>
       <nav>
@@ -29,6 +37,7 @@ const Header = ({ searchMovies }) => {
           to="/starred"
           data-testid="nav-starred"
           className="nav-starred"
+          onClick={handleSearchReset}
         >
           {starredMovies.length > 0 ? (
             <>
@@ -39,7 +48,7 @@ const Header = ({ searchMovies }) => {
             <i className="bi bi-star" />
           )}
         </NavLink>
-        <NavLink to="/watch-later" className="nav-fav">
+        <NavLink to="/watch-later" className="nav-fav" onClick={handleSearchReset}>
           {WATCH_LATER}
         </NavLink>
       </nav>
@@ -48,6 +57,7 @@ const Header = ({ searchMovies }) => {
         <input
           type="search"
           data-testid="search-movies"
+          value={inputValue}
           onChange={handleInputChange}
           onClick={handleNavigationToHome}
           className="form-control rounded"

@@ -7,12 +7,13 @@ const ERROR_MESSAGE = 'There has been an error.';
 const LOADING_MESSAGE = 'Loading...';
 const NO_MOVIES_MESSAGE = 'No movies found.'
 
-const Movies = ({ movies, viewTrailer, lastMovieElementRef }) => {
+const Movies = ({  viewTrailer, lastMovieElementRef }) => {
 
-  const { fetchStatus } = useSelector((state) => state.movies);
+  const { fetchStatus, moviesList } = useSelector((state) => state.movies);
+
   
   const renderMovies = () => 
-    movies.map((movie, index) => (
+  moviesList.map((movie, index) => (
       <Movie 
         movie={movie} 
         key={`${movie.id}-${index}`} 
@@ -27,7 +28,7 @@ const Movies = ({ movies, viewTrailer, lastMovieElementRef }) => {
       case FETCH_STATUS.LOADING:
         return <div>{LOADING_MESSAGE}</div>;
       case FETCH_STATUS.SUCCESS:
-        return !movies.length && <div>{NO_MOVIES_MESSAGE}</div>;
+        return !moviesList.length && <div>{NO_MOVIES_MESSAGE}</div>;
       default:
         return null;
     }

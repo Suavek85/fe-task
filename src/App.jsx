@@ -16,7 +16,7 @@ const App = () => {
   const { lastMovieElementRef } = useIntersection();
   const { videoKey, getMovieKey } = useMovieKey();
   const { isModalOpen, openModal, closeModal } = useYoutubeModal();
-  const { moviesList, searchMovies } = useMovieSearch();
+  const { searchMovies } = useMovieSearch();
 
   const viewTrailer = (movie) => {
     getMovieKey(movie.id);
@@ -41,7 +41,6 @@ const App = () => {
             path="/"
             element={
               <Movies
-                movies={moviesList}
                 viewTrailer={viewTrailer}
                 lastMovieElementRef={lastMovieElementRef}
               />

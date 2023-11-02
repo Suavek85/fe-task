@@ -23,8 +23,10 @@ const useMovieSearch = () => {
 
   const searchMovies = (query) => {
     scrollRestore();
-    dispatch(clearMovies());
-    setParams(query);
+    if (query || searchQuery) {
+      dispatch(clearMovies());
+      setParams(query);
+    }   
   };
 
   const getMovies = () => {
